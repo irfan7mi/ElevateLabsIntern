@@ -27,9 +27,3 @@ This project is a simple responsive landing page created as part of the Elevate 
 - **Responsive Design**: Ensures the page looks good on all devices.
 - **Box Model**: Used for spacing and layout control.
 - **Hover States**: Added for interactivity.
-
-## Screenshots
-*(Optional: Add screenshots of the landing page on desktop and mobile views)*
-
-## Submission
-This project is submitted as part of the Elevate Labs internship task on May 26, 2025.
