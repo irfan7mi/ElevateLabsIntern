@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Form with Validation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .form-container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+            backdrop-filter: blur(10px);
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-header h1 {
+            color: #333;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .form-header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            font-size: 0.9rem;
+            margin-top: 8px;
+            display: none;
+            font-weight: 500;
+        }
+
+        .success-message {
+            color: #27ae60;
+            font-size: 0.9rem;
+            margin-top: 8px;
+            display: none;
+            font-weight: 500;
+        }
+
+        .input-valid {
+            border-color: #27ae60 !important;
+            background: #f8fff9 !important;
+        }
+
+        .input-error {
+            border-color: #e74c3c !important;
+            background: #fff5f5 !important;
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .submit-btn:disabled {
+            background: #bbb;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .form-success {
+            background: #d4edda;
+            color: #155724;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 20px;
+            border: 1px solid #c3e6cb;
+            display: none;
+            font-weight: 600;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #ffffff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .char-counter {
+            font-size: 0.8rem;
+            color: #666;
+            text-align: right;
+            margin-top: 5px;
+        }
+
+        .char-counter.warning {
+            color: #f39c12;
+        }
+
+        .char-counter.error {
+            color: #e74c3c;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <div class="form-header">
+            <h1>Contact Us</h1>
+            <p>We'd love to hear from you. Send us a message!</p>
+        </div>
+
+        <form id="contactForm" novalidate>
+            <div class="form-group">
+                <label for="name">Full Name *</label>
+                <input type="text" id="name" name="name" required>
+                <div class="error-message" id="nameError"></div>
+                <div class="success-message" id="nameSuccess">✓ Name looks good!</div>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address *</label>
+                <input type="email" id="email" name="email" required>
+                <div class="error-message" id="emailError"></div>
+                <div class="success-message" id="emailSuccess">✓ Email is valid!</div>
+            </div>
+
+            <div class="form-group">
+                <label for="message">Message *</label>
+                <textarea id="message" name="message" placeholder="Tell us what's on your mind..." required></textarea>
+                <div class="char-counter" id="charCounter">0 / 500 characters</div>
+                <div class="error-message" id="messageError"></div>
+                <div class="success-message" id="messageSuccess">✓ Message looks great!</div>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitBtn">
+                Send Message
+            </button>
+
+            <div class="form-success" id="formSuccess">
+                <h3>🎉 Message Sent Successfully!</h3>
+                <p>Thank you for contacting us. We'll get back to you soon!</p>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        class ContactFormValidator {
+            constructor() {
+                this.form = document.getElementById('contactForm');
+                this.nameField = document.getElementById('name');
+                this.emailField = document.getElementById('email');
+                this.messageField = document.getElementById('message');
+                this.submitBtn = document.getElementById('submitBtn');
+                this.charCounter = document.getElementById('charCounter');
+                
+                this.init();
+            }
+
+            init() {
+                // Real-time validation
+                this.nameField.addEventListener('input', () => this.validateName());
+                this.nameField.addEventListener('blur', () => this.validateName());
+                
+                this.emailField.addEventListener('input', () => this.validateEmail());
+                this.emailField.addEventListener('blur', () => this.validateEmail());
+                
+                this.messageField.addEventListener('input', () => {
+                    this.validateMessage();
+                    this.updateCharCounter();
+                });
+                this.messageField.addEventListener('blur', () => this.validateMessage());
+                
+                // Form submission
+                this.form.addEventListener('submit', (e) => this.handleSubmit(e));
+            }
+
+            validateName() {
+                const name = this.nameField.value.trim();
+                const nameError = document.getElementById('nameError');
+                const nameSuccess = document.getElementById('nameSuccess');
+                
+                // Reset classes
+                this.nameField.classList.remove('input-error', 'input-valid');
+                nameError.style.display = 'none';
+                nameSuccess.style.display = 'none';
+                
+                if (name === '') {
+                    this.showError(this.nameField, nameError, 'Name is required');
+                    return false;
+                }
+                
+                if (name.length < 2) {
+                    this.showError(this.nameField, nameError, 'Name must be at least 2 characters');
+                    return false;
+                }
+                
+                if (name.length > 50) {
+                    this.showError(this.nameField, nameError, 'Name must be less than 50 characters');
+                    return false;
+                }
+                
+                if (!/^[a-zA-Z\s'-]+$/.test(name)) {
+                    this.showError(this.nameField, nameError, 'Name can only contain letters, spaces, hyphens, and apostrophes');
+                    return false;
+                }
+                
+                this.showSuccess(this.nameField, nameSuccess);
+                return true;
+            }
+
+            validateEmail() {
+                const email = this.emailField.value.trim();
+                const emailError = document.getElementById('emailError');
+                const emailSuccess = document.getElementById('emailSuccess');
+                
+                // Reset classes
+                this.emailField.classList.remove('input-error', 'input-valid');
+                emailError.style.display = 'none';
+                emailSuccess.style.display = 'none';
+                
+                if (email === '') {
+                    this.showError(this.emailField, emailError, 'Email is required');
+                    return false;
+                }
+                
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    this.showError(this.emailField, emailError, 'Please enter a valid email address');
+                    return false;
+                }
+                
+                if (email.length > 100) {
+                    this.showError(this.emailField, emailError, 'Email must be less than 100 characters');
+                    return false;
+                }
+                
+                this.showSuccess(this.emailField, emailSuccess);
+                return true;
+            }
+
+            validateMessage() {
+                const message = this.messageField.value.trim();
+                const messageError = document.getElementById('messageError');
+                const messageSuccess = document.getElementById('messageSuccess');
+                
+                // Reset classes
+                this.messageField.classList.remove('input-error', 'input-valid');
+                messageError.style.display = 'none';
+                messageSuccess.style.display = 'none';
+                
+                if (message === '') {
+                    this.showError(this.messageField, messageError, 'Message is required');
+                    return false;
+                }
+                
+                if (message.length < 10) {
+                    this.showError(this.messageField, messageError, 'Message must be at least 10 characters');
+                    return false;
+                }
+                
+                if (message.length > 500) {
+                    this.showError(this.messageField, messageError, 'Message must be less than 500 characters');
+                    return false;
+                }
+                
+                this.showSuccess(this.messageField, messageSuccess);
+                return true;
+            }
+
+            updateCharCounter() {
+                const length = this.messageField.value.length;
+                const maxLength = 500;
+                this.charCounter.textContent = `${length} / ${maxLength} characters`;
+                
+                // Update counter color based on length
+                this.charCounter.classList.remove('warning', 'error');
+                if (length > maxLength * 0.8) {
+                    this.charCounter.classList.add('warning');
+                }
+                if (length > maxLength) {
+                    this.charCounter.classList.add('error');
+                }
+            }
+
+            showError(field, errorElement, message) {
+                field.classList.add('input-error');
+                errorElement.textContent = message;
+                errorElement.style.display = 'block';
+            }
+
+            showSuccess(field, successElement) {
+                field.classList.add('input-valid');
+                successElement.style.display = 'block';
+            }
+
+            validateForm() {
+                const isNameValid = this.validateName();
+                const isEmailValid = this.validateEmail();
+                const isMessageValid = this.validateMessage();
+                
+                return isNameValid && isEmailValid && isMessageValid;
+            }
+
+            async handleSubmit(e) {
+                e.preventDefault();
+                
+                if (!this.validateForm()) {
+                    return;
+                }
+                
+                // Show loading state
+                this.submitBtn.disabled = true;
+                this.submitBtn.innerHTML = '<span class="loading"></span>Sending...';
+                
+                try {
+                    // Simulate API call
+                    await this.simulateFormSubmission();
+                    
+                    // Show success message
+                    document.getElementById('formSuccess').style.display = 'block';
+                    this.form.reset();
+                    this.resetForm();
+                    
+                    // Scroll to success message
+                    document.getElementById('formSuccess').scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'center' 
+                    });
+                    
+                } catch (error) {
+                    alert('There was an error sending your message. Please try again.');
+                } finally {
+                    // Reset button state
+                    this.submitBtn.disabled = false;
+                    this.submitBtn.innerHTML = 'Send Message';
+                }
+            }
+
+            simulateFormSubmission() {
+                return new Promise((resolve) => {
+                    setTimeout(resolve, 2000); // Simulate 2-second API call
+                });
+            }
+
+            resetForm() {
+                // Reset all visual states
+                const fields = [this.nameField, this.emailField, this.messageField];
+                const errors = document.querySelectorAll('.error-message');
+                const successes = document.querySelectorAll('.success-message');
+                
+                fields.forEach(field => {
+                    field.classList.remove('input-error', 'input-valid');
+                });
+                
+                errors.forEach(error => {
+                    error.style.display = 'none';
+                });
+                
+                successes.forEach(success => {
+                    success.style.display = 'none';
+                });
+                
+                this.updateCharCounter();
+            }
+        }
+
+        // Initialize the form validator when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new ContactFormValidator();
+        });
+    </script>
+</body>
+</html>
