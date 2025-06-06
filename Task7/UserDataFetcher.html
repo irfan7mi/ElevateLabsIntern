@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Data Fetcher</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .controls {
+            padding: 20px 30px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px 30px;
+            color: #666;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error {
+            background: #fee;
+            border: 1px solid #fcc;
+            color: #c33;
+            padding: 20px;
+            margin: 20px 30px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .error h3 {
+            margin-bottom: 10px;
+        }
+
+        .users-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            padding: 30px;
+        }
+
+        .user-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            overflow: hidden;
+            border: 1px solid #e9ecef;
+        }
+
+        .user-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .user-card-header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .user-avatar {
+            width: 80px;
+            height: 80px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .user-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .user-username {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .user-card-body {
+            padding: 20px;
+        }
+
+        .user-info {
+            margin-bottom: 15px;
+        }
+
+        .user-info-label {
+            font-weight: 600;
+            color: #495057;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        .user-info-value {
+            color: #6c757d;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        .user-website {
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 8px 12px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            display: inline-block;
+        }
+
+        .user-website:hover {
+            background: #bbdefb;
+            transform: scale(1.05);
+        }
+
+        .stats {
+            background: #f8f9fa;
+            padding: 20px 30px;
+            text-align: center;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .stats-item {
+            display: inline-block;
+            margin: 0 20px;
+            color: #495057;
+        }
+
+        .stats-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        @media (max-width: 768px) {
+            .users-grid {
+                grid-template-columns: 1fr;
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .controls {
+                padding: 15px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>User Data Fetcher</h1>
+            <p>Fetching user data from JSONPlaceholder API using Fetch API</p>
+        </div>
+        
+        <div class="controls">
+            <button class="btn" id="loadBtn">Load Users</button>
+            <button class="btn" id="reloadBtn">Reload Data</button>
+            <button class="btn" id="clearBtn">Clear Data</button>
+        </div>
+        
+        <div id="content">
+            <div class="loading" style="display: none;" id="loading">
+                <div class="spinner"></div>
+                <p>Fetching user data...</p>
+            </div>
+            
+            <div class="error" style="display: none;" id="error">
+                <h3>Oops! Something went wrong</h3>
+                <p id="errorMessage"></p>
+                <p><small>Try checking your internet connection or reload the page.</small></p>
+            </div>
+            
+            <div id="usersContainer" style="display: none;">
+                <div class="users-grid" id="usersGrid"></div>
+                <div class="stats" id="stats"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // API endpoint
+        const API_URL = 'https://jsonplaceholder.typicode.com/users';
+        
+        // DOM elements
+        const loadBtn = document.getElementById('loadBtn');
+        const reloadBtn = document.getElementById('reloadBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const loading = document.getElementById('loading');
+        const error = document.getElementById('error');
+        const errorMessage = document.getElementById('errorMessage');
+        const usersContainer = document.getElementById('usersContainer');
+        const usersGrid = document.getElementById('usersGrid');
+        const stats = document.getElementById('stats');
+        
+        // State management
+        let users = [];
+        let isLoading = false;
+        
+        // Initialize event listeners
+        loadBtn.addEventListener('click', fetchUsers);
+        reloadBtn.addEventListener('click', fetchUsers);
+        clearBtn.addEventListener('click', clearData);
+        
+        // Show loading state
+        function showLoading() {
+            isLoading = true;
+            loading.style.display = 'block';
+            error.style.display = 'none';
+            usersContainer.style.display = 'none';
+            loadBtn.disabled = true;
+            reloadBtn.disabled = true;
+            loadBtn.textContent = 'Loading...';
+            reloadBtn.textContent = 'Loading...';
+        }
+        
+        // Hide loading state
+        function hideLoading() {
+            isLoading = false;
+            loading.style.display = 'none';
+            loadBtn.disabled = false;
+            reloadBtn.disabled = false;
+            loadBtn.textContent = 'Load Users';
+            reloadBtn.textContent = 'Reload Data';
+        }
+        
+        // Show error state
+        function showError(message) {
+            hideLoading();
+            error.style.display = 'block';
+            errorMessage.textContent = message;
+            usersContainer.style.display = 'none';
+        }
+        
+        // Fetch users from API
+        async function fetchUsers() {
+            showLoading();
+            
+            try {
+                console.log('Fetching users from API...');
+                
+                // Fetch data with timeout
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+                
+                const response = await fetch(API_URL, {
+                    signal: controller.signal,
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                clearTimeout(timeoutId);
+                
+                // Check if response is ok
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status} - ${response.statusText}`);
+                }
+                
+                // Parse JSON response
+                users = await response.json();
+                console.log('Successfully fetched users:', users.length);
+                
+                // Validate data
+                if (!Array.isArray(users) || users.length === 0) {
+                    throw new Error('No user data received from API');
+                }
+                
+                displayUsers();
+                
+            } catch (err) {
+                console.error('Error fetching users:', err);
+                
+                let errorMsg = 'Failed to fetch user data. ';
+                
+                if (err.name === 'AbortError') {
+                    errorMsg += 'Request timed out. Please try again.';
+                } else if (err.name === 'TypeError') {
+                    errorMsg += 'Network error. Please check your internet connection.';
+                } else {
+                    errorMsg += err.message || 'Unknown error occurred.';
+                }
+                
+                showError(errorMsg);
+            }
+        }
+        
+        // Display users in the grid
+        function displayUsers() {
+            hideLoading();
+            
+            if (!users || users.length === 0) {
+                showError('No users to display');
+                return;
+            }
+            
+            // Clear existing content
+            usersGrid.innerHTML = '';
+            
+            // Create user cards
+            users.forEach(user => {
+                const userCard = createUserCard(user);
+                usersGrid.appendChild(userCard);
+            });
+            
+            // Show stats
+            displayStats();
+            
+            // Show users container
+            error.style.display = 'none';
+            usersContainer.style.display = 'block';
+        }
+        
+        // Create individual user card
+        function createUserCard(user) {
+            const card = document.createElement('div');
+            card.className = 'user-card';
+            
+            // Get user initials for avatar
+            const initials = user.name.split(' ').map(n => n[0]).join('').substring(0, 2);
+            
+            // Format address
+            const address = `${user.address.street}, ${user.address.suite}, ${user.address.city}, ${user.address.zipcode}`;
+            
+            card.innerHTML = `
+                <div class="user-card-header">
+                    <div class="user-avatar">${initials}</div>
+                    <div class="user-name">${user.name}</div>
+                    <div class="user-username">@${user.username}</div>
+                </div>
+                <div class="user-card-body">
+                    <div class="user-info">
+                        <div class="user-info-label">Email</div>
+                        <div class="user-info-value">${user.email}</div>
+                    </div>
+                    <div class="user-info">
+                        <div class="user-info-label">Phone</div>
+                        <div class="user-info-value">${user.phone}</div>
+                    </div>
+                    <div class="user-info">
+                        <div class="user-info-label">Address</div>
+                        <div class="user-info-value">${address}</div>
+                    </div>
+                    <div class="user-info">
+                        <div class="user-info-label">Company</div>
+                        <div class="user-info-value">${user.company.name}</div>
+                    </div>
+                    <div class="user-info">
+                        <div class="user-info-label">Website</div>
+                        <div class="user-info-value">
+                            <a href="http://${user.website}" target="_blank" class="user-website">
+                                Visit ${user.website}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            return card;
+        }
+        
+        // Display statistics
+        function displayStats() {
+            const totalUsers = users.length;
+            const totalCompanies = new Set(users.map(u => u.company.name)).size;
+            const totalCities = new Set(users.map(u => u.address.city)).size;
+            
+            stats.innerHTML = `
+                <div class="stats-item">
+                    <div class="stats-number">${totalUsers}</div>
+                    <div>Total Users</div>
+                </div>
+                <div class="stats-item">
+                    <div class="stats-number">${totalCompanies}</div>
+                    <div>Companies</div>
+                </div>
+                <div class="stats-item">
+                    <div class="stats-number">${totalCities}</div>
+                    <div>Cities</div>
+                </div>
+            `;
+        }
+        
+        // Clear all data
+        function clearData() {
+            users = [];
+            usersGrid.innerHTML = '';
+            error.style.display = 'none';
+            usersContainer.style.display = 'none';
+            console.log('Data cleared');
+        }
+        
+        // Auto-load users on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('Page loaded, fetching initial data...');
+            fetchUsers();
+        });
+        
+        // Handle online/offline events
+        window.addEventListener('online', () => {
+            console.log('Connection restored');
+        });
+        
+        window.addEventListener('offline', () => {
+            console.log('Connection lost');
+            if (isLoading) {
+                showError('Connection lost. Please check your internet connection and try again.');
+            }
+        });
+    </script>
+</body>
+</html>

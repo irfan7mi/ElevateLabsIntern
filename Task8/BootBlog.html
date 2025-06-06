@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechBlog - Latest in Technology</title>
+    
+    <!-- Bootstrap 5 CSS CDN -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Bootstrap Icons CDN -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.1/font/bootstrap-icons.min.css" rel="stylesheet">
+    
+    <style>
+        .hero-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 100px 0;
+        }
+        
+        .card {
+            transition: transform 0.3s ease-in-out;
+            border: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .card-img-top {
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: #6c757d;
+            color: white;
+            border-radius: 50%;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        
+        .social-icon:hover {
+            color: white;
+        }
+        
+        .social-icon.facebook:hover { background: #3b5998; }
+        .social-icon.twitter:hover { background: #1da1f2; }
+        .social-icon.instagram:hover { background: #e1306c; }
+        .social-icon.linkedin:hover { background: #0077b5; }
+        
+        footer {
+            background: #212529;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#">
+                <i class="bi bi-newspaper me-2"></i>TechBlog
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#categories">Categories</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section" id="home">
+        <div class="container text-center">
+            <h1 class="display-4 fw-bold mb-4">Welcome to TechBlog</h1>
+            <p class="lead mb-4">Discover the latest trends, insights, and innovations in technology</p>
+            <a href="#blog-posts" class="btn btn-light btn-lg">Explore Posts</a>
+        </div>
+    </section>
+
+    <!-- Blog Posts Section -->
+    <section class="py-5" id="blog-posts">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-12 text-center">
+                    <h2 class="display-5 fw-bold mb-3">Latest Blog Posts</h2>
+                    <p class="text-muted">Stay updated with our latest articles and insights</p>
+                </div>
+            </div>
+            
+            <div class="row g-4">
+                <!-- Blog Post 1 -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="card h-100">
+                        <img src="https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=400&h=200&fit=crop" class="card-img-top" alt="AI Technology">
+                        <div class="card-body d-flex flex-column">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="badge bg-primary">AI & Machine Learning</span>
+                                <small class="text-muted">Dec 15, 2024</small>
+                            </div>
+                            <h5 class="card-title">The Future of Artificial Intelligence in 2025</h5>
+                            <p class="card-text flex-grow-1">Explore the latest developments in AI technology and how machine learning is revolutionizing industries across the globe.</p>
+                            <div class="mt-auto">
+                                <a href="#" class="btn btn-outline-primary">Read More <i class="bi bi-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Blog Post 2 -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="card h-100">
+                        <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=400&h=200&fit=crop" class="card-img-top" alt="Web Development">
+                        <div class="card-body d-flex flex-column">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="badge bg-success">Web Development</span>
+                                <small class="text-muted">Dec 12, 2024</small>
+                            </div>
+                            <h5 class="card-title">Modern Web Development Trends</h5>
+                            <p class="card-text flex-grow-1">Discover the latest frameworks, tools, and best practices that are shaping the future of web development in 2024 and beyond.</p>
+                            <div class="mt-auto">
+                                <a href="#" class="btn btn-outline-primary">Read More <i class="bi bi-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Blog Post 3 -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="card h-100">
+                        <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=400&h=200&fit=crop" class="card-img-top" alt="Cybersecurity">
+                        <div class="card-body d-flex flex-column">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="badge bg-danger">Cybersecurity</span>
+                                <small class="text-muted">Dec 10, 2024</small>
+                            </div>
+                            <h5 class="card-title">Cybersecurity Best Practices for Businesses</h5>
+                            <p class="card-text flex-grow-1">Learn essential cybersecurity strategies to protect your business from evolving threats and maintain data integrity.</p>
+                            <div class="mt-auto">
+                                <a href="#" class="btn btn-outline-primary">Read More <i class="bi bi-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Blog Post 4 -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="card h-100">
+                        <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=400&h=200&fit=crop" class="card-img-top" alt="Mobile Development">
+                        <div class="card-body d-flex flex-column">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="badge bg-info">Mobile Development</span>
+                                <small class="text-muted">Dec 8, 2024</small>
+                            </div>
+                            <h5 class="card-title">Cross-Platform Mobile App Development</h5>
+                            <p class="card-text flex-grow-1">Compare the latest cross-platform mobile development frameworks and choose the best solution for your next project.</p>
+                            <div class="mt-auto">
+                                <a href="#" class="btn btn-outline-primary">Read More <i class="bi bi-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Blog Post 5 -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="card h-100">
+                        <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400&h=200&fit=crop" class="card-img-top" alt="Cloud Computing">
+                        <div class="card-body d-flex flex-column">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="badge bg-warning text-dark">Cloud Computing</span>
+                                <small class="text-muted">Dec 5, 2024</small>
+                            </div>
+                            <h5 class="card-title">Cloud Migration Strategies for Enterprises</h5>
+                            <p class="card-text flex-grow-1">A comprehensive guide to successfully migrating your enterprise applications and data to the cloud infrastructure.</p>
+                            <div class="mt-auto">
+                                <a href="#" class="btn btn-outline-primary">Read More <i class="bi bi-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Blog Post 6 -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="card h-100">
+                        <img src="https://images.unsplash.com/photo-1518314916381-77a37c2a49ae?w=400&h=200&fit=crop" class="card-img-top" alt="Blockchain">
+                        <div class="card-body d-flex flex-column">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="badge bg-secondary">Blockchain</span>
+                                <small class="text-muted">Dec 3, 2024</small>
+                            </div>
+                            <h5 class="card-title">Blockchain Beyond Cryptocurrency</h5>
+                            <p class="card-text flex-grow-1">Explore innovative blockchain applications in supply chain, healthcare, and other industries beyond digital currencies.</p>
+                            <div class="mt-auto">
+                                <a href="#" class="btn btn-outline-primary">Read More <i class="bi bi-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Load More Button -->
+            <div class="row mt-5">
+                <div class="col-12 text-center">
+                    <button class="btn btn-primary btn-lg">Load More Posts</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="bg-light py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-6 text-center">
+                    <h3 class="fw-bold mb-3">Stay Updated</h3>
+                    <p class="text-muted mb-4">Subscribe to our newsletter and never miss our latest articles</p>
+                    <div class="input-group">
+                        <input type="email" class="form-control form-control-lg" placeholder="Enter your email">
+                        <button class="btn btn-primary btn-lg" type="button">Subscribe</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="text-white py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <h5 class="fw-bold mb-3">
+                        <i class="bi bi-newspaper me-2"></i>TechBlog
+                    </h5>
+                    <p class="text-light">Your go-to source for the latest technology insights, tutorials, and industry trends. Stay ahead of the curve with our expert analysis.</p>
+                </div>
+                
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h6 class="fw-bold mb-3">Quick Links</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-light text-decoration-none">Home</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">About</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Categories</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h6 class="fw-bold mb-3">Categories</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-light text-decoration-none">AI & Machine Learning</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Web Development</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Cybersecurity</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Mobile Development</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-3 mb-4">
+                    <h6 class="fw-bold mb-3">Follow Us</h6>
+                    <div class="d-flex gap-3">
+                        <a href="#" class="social-icon facebook">
+                            <i class="bi bi-facebook"></i>
+                        </a>
+                        <a href="#" class="social-icon twitter">
+                            <i class="bi bi-twitter"></i>
+                        </a>
+                        <a href="#" class="social-icon instagram">
+                            <i class="bi bi-instagram"></i>
+                        </a>
+                        <a href="#" class="social-icon linkedin">
+                            <i class="bi bi-linkedin"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <hr class="my-4">
+            
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <p class="mb-0 text-light">&copy; 2024 TechBlog. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <a href="#" class="text-light text-decoration-none me-3">Privacy Policy</a>
+                    <a href="#" class="text-light text-decoration-none">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Smooth scrolling for anchor links -->
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
